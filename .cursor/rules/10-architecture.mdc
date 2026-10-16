@@ -1,0 +1,18 @@
+---
+description: Lightweight Feature Sliced Design for web frontend
+globs: "src/**/*.ts,src/**/*.tsx"
+alwaysApply: false
+---
+# FSD lite
+- src/app — Next.js маршруты, layouts, providers и композиция экранов. Не помещать здесь доменную бизнес-логику.
+- src/widgets — крупные блоки: app shell, room workspace, video library.
+- src/features — действия: create-room, upload-video, manage-access, manage-playlist.
+- src/entities — user, room, video, playlist, invitation: модели и UI сущностей.
+- src/shared — UI-примитивы, общие utils, config, API transport. Без знаний о комнатах и пользователях.
+- Направление импортов: app → widgets → features → entities → shared. Допускается пропуск слоёв. Запрещены обратные импорты, циклы и импорты между разными слайсами одного слоя.
+- Для внешнего доступа к слайсу использовать небольшой public API index.ts; внутри слайса — относительные импорты. Не создавать глобальный barrel со всем проектом.
+- В слайсе создавать ui/model/api/lib только по потребности. Не делать пустые каталоги. Не вводить отдельный слой pages: маршруты Next.js уже находятся в app.
+- React Server Components по умолчанию. use client только на границах интерактивности; не переводить весь layout в client ради одного элемента.
+- Демо-репозитории реализуют типизированные интерфейсы в api соответствующего entity. UI не импортирует fixtures напрямую. Позже заменить реализацию на Nest.js API без переписывания экранов.
+- Backend впоследствии строится модулями Nest.js, а не копирует слои FSD. Frontend не получает прямой доступ к PostgreSQL.
+- Не добавлять Redux, CQRS, event bus или сложный монорепозиторий для текущего каркаса. Внешнее состояние добавлять лишь при доказанной необходимости.
