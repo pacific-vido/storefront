@@ -2,6 +2,9 @@ import { parseBoundedText, type ParseResult } from "@/shared";
 
 export type VideoStatus = "uploading" | "processing" | "ready" | "error";
 
+export const videoCategories = ["outdoors", "food", "film", "lifestyle"] as const;
+export type VideoCategory = (typeof videoCategories)[number];
+
 export interface Video {
   id: string;
   roomId: string;
@@ -11,6 +14,8 @@ export interface Video {
   durationLabel: string;
   createdAt: string;
   errorMessage: string | null;
+  coverSrc?: string | null;
+  category?: VideoCategory | null;
 }
 
 export interface UploadRequest {

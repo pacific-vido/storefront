@@ -1,8 +1,8 @@
 import type { Invitation } from "@/entities/invitation";
 import type { Playlist } from "@/entities/playlist";
 import type { Room } from "@/entities/room";
-import type { User } from "@/entities/user";
-import type { Video } from "@/entities/video";
+import { currentUser, type User } from "@/entities/user";
+import type { Video, VideoCategory } from "@/entities/video";
 
 export interface Membership {
   roomId: string;
@@ -20,36 +20,49 @@ export interface DemoState {
 }
 
 export const people = {
+  stanislav: {
+    id: currentUser.id,
+    name: currentUser.displayName,
+    email: currentUser.email,
+    avatarSrc: null,
+  },
   avery: {
     id: "user_avery",
     name: "Avery Chen",
     email: "avery.chen@example.com",
+    avatarSrc: null,
   },
   jordan: {
     id: "user_jordan",
     name: "Jordan Hale",
     email: "jordan.hale@example.com",
+    avatarSrc: "/covers/avatar-jordan.jpg",
   },
   mina: {
     id: "user_mina",
     name: "Mina Okada",
     email: "mina.okada@example.com",
+    avatarSrc: "/covers/avatar-mina.jpg",
   },
   luis: {
     id: "user_luis",
     name: "Luis Ortega",
     email: "luis.ortega@example.com",
+    avatarSrc: "/covers/avatar-luis.jpg",
   },
   samira: {
     id: "user_samira",
     name: "Samira Nouri",
     email: "samira.nouri@example.com",
+    avatarSrc: "/covers/avatar-samira.jpg",
   },
 } as const;
 
 export const signInIds = new Set<string>([people.avery.id, people.jordan.id]);
 
 export const rooms = {
+  design: "room_design",
+  weekend: "room_weekend",
   coastal: "room_coastal",
   field: "room_field",
   harbor: "room_harbor",
@@ -93,6 +106,7 @@ export const invitations = {
 export function createSeed(): DemoState {
   return {
     users: [
+      { ...people.stanislav },
       { ...people.avery },
       { ...people.jordan },
       { ...people.mina },
@@ -101,6 +115,22 @@ export function createSeed(): DemoState {
     ],
     sessionUserId: null,
     rooms: [
+      {
+        id: rooms.design,
+        title: "Design journal",
+        description: "A private room for notes, cuts, and the people you choose.",
+        ownerId: people.stanislav.id,
+        visibility: "private",
+        createdAt: "2026-03-12T15:00:00.000Z",
+      },
+      {
+        id: rooms.weekend,
+        title: "Weekend projects",
+        description: "Private experiments that stay inside this room.",
+        ownerId: people.stanislav.id,
+        visibility: "private",
+        createdAt: "2026-04-08T15:00:00.000Z",
+      },
       {
         id: rooms.coastal,
         title: "Coastal Briefings",
@@ -164,13 +194,31 @@ export function createSeed(): DemoState {
       video(videos.retake, rooms.coastal, "Failed retake", "error", "—", "2026-01-04T15:00:00.000Z"),
       video(videos.north, rooms.field, "North trail notes", "ready", "11:03", "2026-02-02T15:00:00.000Z"),
       video(videos.lane, rooms.harbor, "Lane review", "ready", "06:18", "2026-03-02T15:00:00.000Z"),
-      video(videos.pier, rooms.jetty, "Pier loop", "ready", "04:05", "2026-04-02T15:00:00.000Z"),
+      video(videos.pier, rooms.jetty, "Pier loop", "ready", "04:05", "2026-04-02T15:00:00.000Z", {
+        coverSrc: "/covers/pier.jpg",
+        category: "lifestyle",
+      }),
       video(videos.mist, rooms.jetty, "Unfinished mist", "processing", "—", "2026-04-03T15:00:00.000Z"),
-      video(videos.soft, rooms.studio, "Soft light test", "ready", "03:20", "2026-05-04T15:00:00.000Z"),
-      video(videos.creek, rooms.ridge, "Creek crossing", "ready", "07:05", "2026-05-12T15:00:00.000Z"),
-      video(videos.color, rooms.studio, "Color pass", "ready", "04:48", "2026-05-20T15:00:00.000Z"),
-      video(videos.ridge, rooms.ridge, "Ridge line", "ready", "09:11", "2026-06-01T15:00:00.000Z"),
-      video(videos.sauce, rooms.kitchen, "Evening sauce", "ready", "06:02", "2026-06-02T15:00:00.000Z"),
+      video(videos.soft, rooms.studio, "Soft light test", "ready", "03:20", "2026-05-04T15:00:00.000Z", {
+        coverSrc: "/covers/portrait.jpg",
+        category: "film",
+      }),
+      video(videos.creek, rooms.ridge, "Creek crossing", "ready", "07:05", "2026-05-12T15:00:00.000Z", {
+        coverSrc: "/covers/creek.jpg",
+        category: "outdoors",
+      }),
+      video(videos.color, rooms.studio, "Color pass", "ready", "04:48", "2026-05-20T15:00:00.000Z", {
+        coverSrc: "/covers/color.jpg",
+        category: "film",
+      }),
+      video(videos.ridge, rooms.ridge, "Ridge line", "ready", "09:11", "2026-06-01T15:00:00.000Z", {
+        coverSrc: "/covers/ridge.jpg",
+        category: "outdoors",
+      }),
+      video(videos.sauce, rooms.kitchen, "Evening sauce", "ready", "06:02", "2026-06-02T15:00:00.000Z", {
+        coverSrc: "/covers/sauce.jpg",
+        category: "food",
+      }),
     ],
     playlists: [
       {
@@ -260,6 +308,7 @@ function video(
   status: Video["status"],
   durationLabel: string,
   createdAt: string,
+  extras?: { coverSrc?: string; category?: VideoCategory },
 ): Video {
   return {
     id,
@@ -269,6 +318,8 @@ function video(
     progress: status === "ready" || status === "error" ? 100 : 0,
     durationLabel,
     createdAt,
-    errorMessage: status === "error" ? "Demo processing failed. Retry to finish the simulation." : null,
+    errorMessage: status === "error" ? "Processing failed. Retry to finish." : null,
+    coverSrc: extras?.coverSrc ?? null,
+    category: extras?.category ?? null,
   };
 }

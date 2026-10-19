@@ -73,11 +73,10 @@ export function WatchScreen() {
                 src={appConfig.sampleVideoUrl}
                 className="aspect-video w-full bg-black"
               >
-                Your browser cannot play this demo sample.
+                Your browser cannot play this sample.
               </video>
               <figcaption className="px-4 py-3 text-sm text-muted">
-                Demo sample: every ready video plays the same short CC0 clip from the MDN interactive
-                examples. It is not an uploaded file.
+                Every ready video plays the same short CC0 clip. It is not an uploaded file.
               </figcaption>
             </figure>
           ) : (
@@ -86,8 +85,8 @@ export function WatchScreen() {
               body={
                 video.errorMessage ??
                 (video.status === "uploading" || video.status === "processing"
-                  ? "Demo processing is running in this browser. Playback starts when the video is ready."
-                  : "This demo video cannot be played.")
+                  ? "Processing is running in this browser. Playback starts when the video is ready."
+                  : "This video cannot be played.")
               }
               action={
                 owner && video.status === "error" ? (

@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { filterRoomsByTitle, RoomCard } from "@/entities/room";
 import { VideoCard, type Video } from "@/entities/video";
-import { RoomFormDialog } from "@/features/create-room";
 import {
   demoErrorMessage,
   DemoErrorState,
@@ -24,10 +24,17 @@ export function RoomsScreen() {
     ]);
     return { owned, shared, pending, videos };
   });
+  const router = useRouter();
+  const pathname = usePathname();
   const [tab, setTab] = useState("owned");
   const [search, setSearch] = useState("");
-  const [creating, setCreating] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+
+  function openCreateRoom() {
+    const next = new URLSearchParams(window.location.search);
+    next.set("create", "room");
+    router.replace(`${pathname}?${next.toString()}`, { scroll: false });
+  }
 
   if (query.status === "loading") {
     return <p role="status">Loading rooms…</p>;
@@ -50,7 +57,7 @@ export function RoomsScreen() {
             Your rooms, the videos in them, and rooms other people have shared with you.
           </p>
         </div>
-        <Button onClick={() => setCreating(true)}>Create room</Button>
+        <Button onClick={openCreateRoom}>Create room</Button>
       </div>
       <TextField
         label={tab === "videos" ? "Search by video title" : "Search by room name"}
@@ -135,7 +142,7 @@ export function RoomsScreen() {
             }
             action={
               tab === "owned" && !search.trim() ? (
-                <Button onClick={() => setCreating(true)}>Create room</Button>
+                <Button onClick={openCreateRoom}>Create room</Button>
               ) : undefined
             }
           />
@@ -148,22 +155,6 @@ export function RoomsScreen() {
         )}
         </TabsContent>
       </Tabs>
-      <RoomFormDialog
-        open={creating}
-        mode="create"
-        initialTitle=""
-        initialDescription=""
-        onClose={() => setCreating(false)}
-        onSubmit={async (input) => {
-          try {
-            await getDemoRepository().createRoom(input);
-            setTab("owned");
-            return null;
-          } catch (error) {
-            return demoErrorMessage(error);
-          }
-        }}
-      />
     </div>
   );
 }

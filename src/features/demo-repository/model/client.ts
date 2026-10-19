@@ -1,3 +1,4 @@
+import { clearLegacyDemoSession, createAppSessionSeed } from "./app-session";
 import { createDemoRepository, type DemoLibrary } from "./repository";
 
 let singleton: DemoLibrary | null = null;
@@ -6,7 +7,9 @@ const listeners = new Set<() => void>();
 
 export function getDemoRepository(): DemoLibrary {
   if (!singleton) {
+    clearLegacyDemoSession();
     singleton = createDemoRepository({
+      seed: createAppSessionSeed(),
       onChange() {
         version += 1;
         for (const listener of listeners) listener();

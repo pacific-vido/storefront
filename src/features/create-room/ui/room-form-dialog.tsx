@@ -70,7 +70,7 @@ function RoomForm({
         value={description}
         onChange={setDescription}
         multiline
-        hint="Optional. Saved only in this demo session."
+        hint="Optional."
       />
       <div className="flex flex-wrap gap-2">
         <Button type="submit" disabled={pending}>

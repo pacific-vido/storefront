@@ -1,30 +1,40 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client";
 
-export function Logo({ href, name, compact = false }: { href?: string; name: string; compact?: boolean }) {
+import Link from "next/link";
+import { appConfig } from "@/shared/config";
+import { cn } from "@/shared/lib/cn";
+
+export function Logo({
+  href,
+  variant = "full",
+  className,
+}: {
+  href?: string;
+  variant?: "full" | "mark";
+  className?: string;
+}) {
   const lockup = (
-    <span className="inline-flex items-center gap-2.5">
-      <span className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-xl bg-[#314152] ring-1 ring-black/10 dark:bg-[#dce3ea] dark:ring-white/20">
-        <Image
-          src="/brand/mark.png"
-          alt=""
-          width={256}
-          height={256}
-          priority
-          className="h-10 w-10"
-        />
-      </span>
-      <span className={compact ? "hidden text-lg font-semibold tracking-tight text-ink sm:inline" : "text-lg font-semibold tracking-tight text-ink"}>
-        {name}
-      </span>
+    <span className={cn("inline-flex items-center gap-1.5", className)}>
+      <LogoMark className={variant === "mark" ? "h-8" : "h-9"} />
+      {variant === "full" ? (
+        <span className="font-display text-[1.35rem] leading-none font-extrabold tracking-[-0.045em] text-foreground">
+          {appConfig.name.toLowerCase()}
+        </span>
+      ) : null}
     </span>
   );
 
   if (!href) return lockup;
 
   return (
-    <Link href={href} className="inline-flex rounded-xl">
+    <Link href={href} aria-label={appConfig.name} className="inline-flex rounded-lg">
       {lockup}
     </Link>
+  );
+}
+
+export function LogoMark({ className }: { className?: string }) {
+  return (
+    <img src="/brand/mark.png" alt="" width={174} height={190} className={cn("w-auto shrink-0", className)} />
   );
 }

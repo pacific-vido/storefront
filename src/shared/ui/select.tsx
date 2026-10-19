@@ -1,6 +1,7 @@
 "use client";
 
 import * as SelectPrimitive from "@radix-ui/react-select";
+import { ChevronDown } from "lucide-react";
 import { cn } from "@/shared/lib/cn";
 
 function Select(props: React.ComponentProps<typeof SelectPrimitive.Root>) {
@@ -16,12 +17,13 @@ function SelectTrigger({ className, children, ...props }: React.ComponentProps<t
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
       className={cn(
-        "flex min-h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-xl border border-input bg-background px-3 text-sm text-foreground",
+        "flex min-h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-xl border border-input bg-background px-3 text-sm text-foreground outline-none focus-visible:outline-none",
         className,
       )}
       {...props}
     >
       {children}
+      <ChevronDown aria-hidden="true" className="size-4 shrink-0 text-muted" />
     </SelectPrimitive.Trigger>
   );
 }

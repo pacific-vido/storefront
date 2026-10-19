@@ -5,7 +5,7 @@ import { StatusPanel } from "@/shared/ui";
 import { DemoAccessError, demoErrorMessage } from "../model/errors";
 
 const titles: Record<string, string> = {
-  unauthenticated: "Demo sign-in required",
+  unauthenticated: "Sign-in required",
   unknown_room: "Room not found",
   forbidden: "Access denied",
   unknown_video: "Video not found",

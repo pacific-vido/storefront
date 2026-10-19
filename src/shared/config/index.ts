@@ -5,8 +5,7 @@
 export const appConfig = {
   name: "Pacificvido",
   slug: "pacific-vido",
-  description: "Private video rooms for people you invite.",
-  demoLabel: "DEMO",
+  description: "Public videos and private rooms. Share with the people you choose.",
   /**
    * CC0 flower clip distributed with the MDN interactive examples.
    * Every ready demo video points at this one file. Uploads are not stored.

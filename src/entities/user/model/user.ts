@@ -4,6 +4,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  avatarSrc?: string | null;
 }
 
 export function parseDisplayName(value: string): ParseResult<string> {

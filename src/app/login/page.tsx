@@ -1,8 +1,5 @@
-import type { Metadata } from "next";
-import { LoginScreen } from "@/widgets/login-screen";
-
-export const metadata: Metadata = { title: "Sign in" };
+import { redirect } from "next/navigation";
 
 export default function LoginPage() {
-  return <LoginScreen />;
+  redirect("/");
 }

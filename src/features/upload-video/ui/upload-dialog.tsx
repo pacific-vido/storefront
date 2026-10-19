@@ -66,8 +66,8 @@ function UploadForm({
           className="mt-1 py-2 file:mr-3 file:rounded-lg file:border-0 file:bg-secondary file:px-3 file:py-1 file:text-sm file:font-semibold file:text-foreground"
         />
         <p className="mt-2 text-sm text-muted">
-          The file stays on this device. The demo reads only the name, size, and type. A file name
-          containing “fail” simulates a processing error you can retry.
+          The file stays on this device. Only the name, size, and type are read. A file name
+          containing “fail” ends in an error you can retry.
         </p>
       </div>
       {error ? (
@@ -77,7 +77,7 @@ function UploadForm({
       ) : null}
       <div className="flex flex-wrap gap-2">
         <Button type="submit" disabled={pending}>
-          {pending ? "Starting…" : "Start demo upload"}
+          {pending ? "Starting…" : "Start upload"}
         </Button>
         <Button type="button" variant="secondary" onClick={onClose}>
           Cancel
@@ -113,7 +113,7 @@ export function DeleteVideoDialog({
   return (
     <Dialog open={open} title="Delete video" onClose={onClose}>
       <p className="text-sm text-muted">
-        Delete “{title}” from this demo room? It will also disappear from playlists. This lasts
+        Delete “{title}” from this room? It will also disappear from playlists. This lasts
         until you refresh the page.
       </p>
       {error ? (

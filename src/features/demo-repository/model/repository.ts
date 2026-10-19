@@ -4,9 +4,8 @@ import type { Playlist } from "@/entities/playlist";
 import { parsePlaylistDescription, parsePlaylistTitle } from "@/entities/playlist";
 import type { Room, RoomRole } from "@/entities/room";
 import { parseRoomDescription, parseRoomTitle } from "@/entities/room";
-import type { User } from "@/entities/user";
-import { parseDisplayName } from "@/entities/user";
-import type { UploadRequest, Video } from "@/entities/video";
+import { currentUser, parseDisplayName, type User } from "@/entities/user";
+import type { UploadRequest, Video, VideoCategory } from "@/entities/video";
 import { parseUploadRequest } from "@/entities/video";
 import { DemoAccessError } from "./errors";
 import { createSeed, signInIds, type DemoState } from "./fixtures";
@@ -14,7 +13,7 @@ import { createSeed, signInIds, type DemoState } from "./fixtures";
 export const UPLOAD_TICK_MS = 200;
 
 const messages = {
-  unauthenticated: "Sign in to a demo person to continue.",
+  unauthenticated: "Sign in to continue.",
   unknownRoom: "This room does not exist.",
   forbidden: "You do not have access to this room.",
   unknownVideo: "This video is not in this room.",
@@ -48,6 +47,9 @@ export interface CatalogVideo {
   roomTitle: string;
   ownerId: string;
   ownerName: string;
+  ownerAvatarSrc: string | null;
+  coverSrc: string | null;
+  category: VideoCategory | null;
 }
 
 export interface PersonProfile {
@@ -88,6 +90,7 @@ export interface WatchContext {
 export interface DemoLibrary {
   listDemoPeople(): Promise<User[]>;
   getSession(): Promise<User | null>;
+  ensureCurrentUser(): Promise<User>;
   signIn(userId: string): Promise<User>;
   signOut(): Promise<void>;
   updateDisplayName(name: string): Promise<User>;
@@ -167,6 +170,9 @@ export function createDemoRepository(options?: {
       roomTitle: room.title,
       ownerId: owner.id,
       ownerName: owner.name,
+      ownerAvatarSrc: owner.avatarSrc ?? null,
+      coverSrc: video.coverSrc ?? null,
+      category: video.category ?? null,
     };
   }
 
@@ -278,9 +284,19 @@ export function createDemoRepository(options?: {
       return user ? structuredClone(user) : null;
     },
 
+    async ensureCurrentUser() {
+      const user = state.users.find((item) => item.id === currentUser.id);
+      if (!user) throw new DemoAccessError("validation", "Current account is missing.");
+      if (state.sessionUserId !== user.id) {
+        state.sessionUserId = user.id;
+        notify();
+      }
+      return structuredClone(user);
+    },
+
     async signIn(userId) {
       const user = state.users.find((item) => item.id === userId);
-      if (!user || !signInIds.has(user.id)) throw new DemoAccessError("validation", "Unknown demo person.");
+      if (!user || !signInIds.has(user.id)) throw new DemoAccessError("validation", "Unknown account.");
       state.sessionUserId = user.id;
       notify();
       return structuredClone(user);

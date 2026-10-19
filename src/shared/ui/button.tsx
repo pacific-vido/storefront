@@ -3,20 +3,20 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/shared/lib/cn";
 
 const buttonVariants = cva(
-  "inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold whitespace-nowrap transition-colors disabled:pointer-events-none disabled:cursor-default disabled:opacity-50",
+  "inline-flex min-h-10 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold whitespace-nowrap transition-colors disabled:pointer-events-none disabled:cursor-default disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        secondary: "border border-border bg-card text-foreground shadow-sm hover:bg-secondary",
+        default: "bg-primary text-primary-foreground hover:bg-primary-hover",
+        secondary: "border border-border bg-card text-foreground hover:bg-secondary",
         destructive: "bg-destructive text-white hover:bg-destructive/90",
         danger: "bg-destructive text-white hover:bg-destructive/90",
         ghost: "text-foreground hover:bg-secondary",
-        outline: "border border-border bg-background text-foreground hover:bg-secondary",
+        outline: "border border-border bg-card text-foreground hover:bg-secondary",
       },
       size: {
-        default: "h-11 px-4",
-        icon: "size-11 px-0",
+        default: "h-10 px-4",
+        icon: "size-10 px-0",
       },
     },
     defaultVariants: {

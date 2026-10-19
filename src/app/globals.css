@@ -4,48 +4,57 @@
 
 :root {
   color-scheme: light;
-  --background: #f4f7f8;
-  --foreground: #0a0e12;
-  --surface: #fafcfd;
+  --background: #faf9f6;
+  --foreground: #141719;
+  --surface: #ffffff;
   --card: #ffffff;
-  --card-foreground: #0a0e12;
+  --card-foreground: #141719;
   --popover: #ffffff;
-  --popover-foreground: #0a0e12;
-  --primary: #17d5ff;
-  --primary-foreground: #0a0e12;
-  --secondary: #eef3f6;
-  --secondary-foreground: #0a0e12;
-  --muted: #eef3f6;
-  --muted-foreground: #4c5864;
+  --popover-foreground: #141719;
+  --primary: #c25608;
+  --primary-foreground: #ffffff;
+  --primary-hover: #a84a06;
+  --secondary: #f3f1ec;
+  --secondary-foreground: #141719;
+  --muted: #f3f1ec;
+  --muted-foreground: #737580;
   --destructive: #d10f3a;
-  --border: #e2e8ee;
-  --input: #e2e8ee;
-  --ring: #007aa3;
-  --link: #007aa3;
+  --border: #e8e6e2;
+  --input: #e8e6e2;
+  --ring: #141719;
+  --link: #c25608;
+  --brand: #f58220;
+  --brand-soft: #fff2e7;
+  --graphite: #101516;
   --radius: 0.75rem;
-  --font-sans: "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-manrope), var(--font-inter), "Segoe UI", ui-sans-serif, system-ui, sans-serif;
 }
 
 .dark {
   color-scheme: dark;
-  --background: #0c1014;
-  --foreground: #f4f7f8;
-  --surface: #11161c;
-  --card: #171e26;
-  --card-foreground: #f4f7f8;
-  --popover: #171e26;
-  --popover-foreground: #f4f7f8;
-  --primary: #17d5ff;
-  --primary-foreground: #0a0e12;
-  --secondary: #222a33;
-  --secondary-foreground: #f4f7f8;
-  --muted: #222a33;
-  --muted-foreground: #b7c3d4;
+  --background: #101516;
+  --foreground: #f6f4f0;
+  --surface: #171c1f;
+  --card: #1c2226;
+  --card-foreground: #f6f4f0;
+  --popover: #1c2226;
+  --popover-foreground: #f6f4f0;
+  --primary: #f58220;
+  --primary-foreground: #141719;
+  --primary-hover: #e87310;
+  --secondary: #262c31;
+  --secondary-foreground: #f6f4f0;
+  --muted: #262c31;
+  --muted-foreground: #a7a59f;
   --destructive: #e11d48;
-  --border: #2c3846;
-  --input: #2c3846;
-  --ring: #7dd3fc;
-  --link: #7dd3fc;
+  --border: #32383c;
+  --input: #32383c;
+  --ring: #f6f4f0;
+  --link: #f58220;
+  --brand: #f58220;
+  --brand-soft: #3a2418;
+  --graphite: #0b0f11;
 }
 
 @theme inline {
@@ -58,17 +67,21 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted-foreground);
   --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--primary);
-  --color-accent-foreground: var(--primary-foreground);
+  --color-accent: var(--brand);
+  --color-accent-foreground: var(--foreground);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-link: var(--link);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-graphite: var(--graphite);
   --color-bg: var(--background);
   --color-ink: var(--foreground);
   --color-line: var(--border);
@@ -78,6 +91,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
   --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
 }
 
 body {
@@ -89,6 +103,13 @@ body {
 :focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[data-slot="select-trigger"]:focus-visible {
+  outline: none;
 }
 
 a[href],

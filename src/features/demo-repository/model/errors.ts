@@ -22,5 +22,5 @@ export class DemoAccessError extends Error {
 
 export function demoErrorMessage(error: unknown): string {
   if (error instanceof DemoAccessError) return error.message;
-  return "Something went wrong in the demo. Refresh the page and try again.";
+  return "Something went wrong. Refresh the page and try again.";
 }

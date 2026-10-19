@@ -106,7 +106,7 @@ export function RoomScreen() {
             {videos.length === 0 ? (
               <StatusPanel
                 title="No videos"
-                body={owner ? "Upload a demo video. The file itself is not stored." : "The owner has not added videos."}
+                body={owner ? "Upload a video. The file itself is not stored." : "The owner has not added videos."}
               />
             ) : (
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">

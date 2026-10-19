@@ -64,8 +64,7 @@ export function AccessPanel({
       <section className="rounded-2xl border border-line bg-card p-5">
         <h3 className="font-semibold">Invite a viewer</h3>
         <p className="mt-1 text-sm text-muted">
-          Demo only: nothing is emailed. If the address matches a demo person, they can accept it
-          on Shared with me.
+          Nothing is emailed. If the address matches someone here, they can accept it on Shared with me.
         </p>
         <form className="mt-4 grid gap-3" onSubmit={(event) => void invite(event)}>
           <TextField
@@ -76,7 +75,7 @@ export function AccessPanel({
             error={error}
           />
           <Button type="submit" disabled={pending} className="w-fit">
-            {pending ? "Inviting…" : "Send demo invite"}
+            {pending ? "Inviting…" : "Send invitation"}
           </Button>
         </form>
         {access.invitations.length > 0 ? (
@@ -126,8 +125,7 @@ function RevokeConfirm({
   return (
     <div>
       <p className="text-sm text-muted">
-        {name} will lose this room, including its videos and playlists. You can invite them again
-        later in this demo.
+        {name} will lose this room, including its videos and playlists. You can invite them again later.
       </p>
       {error ? (
         <p role="alert" className="mt-3 text-sm text-danger">
